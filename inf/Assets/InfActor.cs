@@ -1,26 +1,30 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public interface UpdateableWhileFrozen {
+public interface Freezable {
+	void Freeze(InfZone zone);
+	void Unfreeze(InfZone zone);
 	void UpdateWhileFrozen();
 }
 
 public class InfActor : MonoBehaviour {
 
 	public InfZone zone;
-	public System.Action<InfZone> onFreezeAction;
-	public System.Action<InfZone> onUnfreezeAction;
-	int randomFrameCountOffset;
+	public System.Action<InfZone> onFreeze;
+	public System.Action<InfZone> onUnfreeze;
 	System.Action onUpdateWhileFrozen;
+	int randomFrameCountOffset;
 
 	void Awake() {
 		randomFrameCountOffset = Random.Range(0, 60);
-		SetupOnUpdateWhileFrozen();
+		SetupFreezableDelegates();
 	}
 
-	void SetupOnUpdateWhileFrozen () {
-		var updateableComponents = GetComponents<UpdateableWhileFrozen>();
+	void SetupFreezableDelegates () {
+		var updateableComponents = GetComponents<Freezable>();
 		foreach(var u in updateableComponents) {
+			onFreeze += u.Freeze;
+			onUnfreeze += u.Unfreeze;
 			onUpdateWhileFrozen += u.UpdateWhileFrozen;
 		}
 	}
@@ -94,10 +98,10 @@ public class InfActor : MonoBehaviour {
 	}
 
 	public void FixAfterUnfreeze (InfZone zone) {
-		onUnfreezeAction (zone);
+		onUnfreeze (zone);
 	}
 
 	public void FixAfterFreeze (InfZone zone) {
-		onFreezeAction (zone);
+		onFreeze (zone);
 	}
 }

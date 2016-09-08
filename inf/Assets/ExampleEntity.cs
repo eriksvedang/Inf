@@ -1,18 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ExampleEntity : MonoBehaviour, UpdateableWhileFrozen {
-
-	InfActor actor;
-
+public class ExampleEntity : MonoBehaviour, Freezable {
+	
 	public float distanceTravelledWhileFrozen;
 	public Vector3 freezePosition;
 	public Vector3 target;
 
 	void Awake () {
-		actor = GetComponent<InfActor> ();
-		actor.onFreezeAction += OnFreeze;
-		actor.onUnfreezeAction += OnUnfreeze;
 		target = Random.onUnitSphere * Random.Range (10f, 30f);
 		target.y = 0f;
 	}
@@ -28,12 +23,12 @@ public class ExampleEntity : MonoBehaviour, UpdateableWhileFrozen {
 		distanceTravelledWhileFrozen += Time.deltaTime * 2f;
 	}
 
-	void OnFreeze(InfZone zone) {
+	public void Freeze(InfZone zone) {
 		distanceTravelledWhileFrozen = 0;
 		freezePosition = transform.position;
 	}
 
-	void OnUnfreeze(InfZone zone) {
+	public void Unfreeze(InfZone zone) {
 		float t = distanceTravelledWhileFrozen / Vector3.Distance (freezePosition, target);
 		transform.position = Vector3.Lerp(freezePosition, target, t);
 	}
