@@ -42,7 +42,9 @@ public class InfActor : MonoBehaviour {
 	/// The correct way to move an actor from its current Zone to another one.
 	/// </summary>
 	public void TransferToZone(InfZone newZone) {
-		zone.RemoveActor (this);
+		if(zone != null) {
+			zone.RemoveActor (this);
+		}
 		newZone.AddActor (this);
 		zone = newZone;
 		SetActive (!zone.frozen, zone);
