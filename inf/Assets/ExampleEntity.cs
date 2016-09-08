@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ExampleEntity : MonoBehaviour, UpdateableWhenFrozen {
+public class ExampleEntity : MonoBehaviour, UpdateableWhileFrozen {
 
 	InfActor actor;
 

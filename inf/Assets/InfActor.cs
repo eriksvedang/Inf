@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public interface UpdateableWhenFrozen {
-	void UpdateWhenFrozen();
+public interface UpdateableWhileFrozen {
+	void UpdateWhileFrozen();
 }
 
 public class InfActor : MonoBehaviour {
@@ -19,9 +19,9 @@ public class InfActor : MonoBehaviour {
 	}
 
 	void SetupOnUpdateWhileFrozen () {
-		var updateableComponents = GetComponents<UpdateableWhenFrozen>();
+		var updateableComponents = GetComponents<UpdateableWhileFrozen>();
 		foreach(var u in updateableComponents) {
-			onUpdateWhileFrozen += u.UpdateWhenFrozen;
+			onUpdateWhileFrozen += u.UpdateWhileFrozen;
 		}
 	}
 
