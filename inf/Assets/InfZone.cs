@@ -24,6 +24,14 @@ public class InfZone : MonoBehaviour {
 		}
 	}
 
+	void Update() {
+		if (frozen) {
+			foreach(var a in actors) {
+				a.UpdateWhileFrozen();
+			}
+		}
+	}
+
 	public void AddActor(InfActor actor) {
 		var actorsList = actors.ToList ();
 		actorsList.Add (actor);

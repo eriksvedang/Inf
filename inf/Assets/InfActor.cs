@@ -11,9 +11,22 @@ public class InfActor : MonoBehaviour {
 	public System.Action<InfZone> onFreezeAction;
 	public System.Action<InfZone> onUnfreezeAction;
 	int randomFrameCountOffset;
+	System.Action onUpdateWhileFrozen;
 
 	void Awake() {
 		randomFrameCountOffset = Random.Range(0, 60);
+		SetupOnUpdateWhileFrozen();
+	}
+
+	void SetupOnUpdateWhileFrozen () {
+		var updateableComponents = GetComponents<UpdateableWhenFrozen>();
+		foreach(var u in updateableComponents) {
+			onUpdateWhileFrozen += u.UpdateWhenFrozen;
+		}
+	}
+
+	public void UpdateWhileFrozen () {
+		onUpdateWhileFrozen();
 	}
 
 	/// <summary>

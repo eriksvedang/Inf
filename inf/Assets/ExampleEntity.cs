@@ -24,7 +24,7 @@ public class ExampleEntity : MonoBehaviour, UpdateableWhenFrozen {
 		}
 	}
 
-	public void UpdateWhenFrozen() {
+	public void UpdateWhileFrozen() {
 		distanceTravelledWhileFrozen += Time.deltaTime * 2f;
 	}
 
