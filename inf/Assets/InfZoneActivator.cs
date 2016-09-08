@@ -8,6 +8,7 @@ public enum ActivationStrategy {
 
 public class InfZoneActivator : MonoBehaviour {
 
+	public int everyNthFrame = 20;
 	public ActivationStrategy activationStrategy = ActivationStrategy.AllZonesWithinDistance;
 	public float distanceThreshold = 20f; // used by AllZonesWithinDistance
 
@@ -22,6 +23,12 @@ public class InfZoneActivator : MonoBehaviour {
     }
 
     void Update () {
+		if(Time.frameCount % everyNthFrame == 0) {
+			Refresh();
+		}
+    }
+
+	void Refresh() {
 		if(activationStrategy == ActivationStrategy.OnlyClosestZone) {
 			var newClosest = InfZone.ClosestZone(transform.position, zones);
 			if(newClosest != closest) {
@@ -42,5 +49,5 @@ public class InfZoneActivator : MonoBehaviour {
 				}
 			}
 		}
-    }
+	}
 }

@@ -11,12 +11,15 @@ public class InfActor : MonoBehaviour {
 
 	public InfZone zone;
 
+	InfZone[] zones;
 	System.Action<InfZone> onFreeze;
 	System.Action<InfZone> onUnfreeze;
 	System.Action<InfZone> onUpdateWhileFrozen;
 	int randomFrameCountOffset;
 
 	void Awake() {
+		zones = GameObject.FindObjectsOfType<InfZone>();
+		TransferToClosestZone();
 		randomFrameCountOffset = Random.Range(0, 60);
 		SetupFreezableDelegates();
 	}
@@ -76,13 +79,13 @@ public class InfActor : MonoBehaviour {
 		SetActive (!zone.frozen, zone);
 	}
 
-	public void TransferToClosestZone(InfZone[] zones) {
+	public void TransferToClosestZone() {
 		TransferToZone(InfZone.ClosestZone(transform.position, zones));
 	}
 
-	public void OccasionallyCheckForClosestZone(InfZone[] zones, int everyNthFrame) {
-		if((randomFrameCountOffset + Time.frameCount) % everyNthFrame == 0) {
-			TransferToClosestZone(zones);
+	void Update() {
+		if((randomFrameCountOffset + Time.frameCount) % 60 == 0) {
+			TransferToClosestZone();
 		}
 	}
 
