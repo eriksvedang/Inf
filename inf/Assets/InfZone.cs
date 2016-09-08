@@ -60,6 +60,11 @@ public class InfZone : MonoBehaviour {
 		}
 	}
 
+	void OnDrawGizmos() {
+		Gizmos.color = frozen ? Color.blue : Color.yellow;
+		Gizmos.DrawSphere(transform.position, 1);
+	}
+
 	public override string ToString () {
 		return string.Format ("{0} {1}: [{2}]", name, frozen ? " (frozen)" : "", string.Join(", ", actors.Select(a => a.name).ToArray()));
 	}
@@ -75,7 +80,7 @@ public class DrawWireArcEditor : Editor
 	}
 
 	void OnSceneGUI() {
-		Handles.Label(infZone.transform.position + Vector3.up * 2, infZone.ToString());
+		Handles.Label(infZone.transform.position + Vector3.up * 2 + Vector3.forward * 2, infZone.ToString());
 	}
 
 	public override void OnInspectorGUI() {
