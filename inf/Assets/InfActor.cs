@@ -10,6 +10,11 @@ public class InfActor : MonoBehaviour {
 	public InfZone zone;
 	public System.Action<InfZone> onFreezeAction;
 	public System.Action<InfZone> onUnfreezeAction;
+	int randomFrameCountOffset;
+
+	void Awake() {
+		randomFrameCountOffset = Random.Range(0, 60);
+	}
 
 	/// <summary>
 	/// Alters the activity status of the actor's GameObject. 
@@ -42,6 +47,9 @@ public class InfActor : MonoBehaviour {
 	/// The correct way to move an actor from its current Zone to another one.
 	/// </summary>
 	public void TransferToZone(InfZone newZone) {
+		if(zone == newZone) {
+			return; // Already in that zone
+		}
 		if(zone != null) {
 			zone.RemoveActor (this);
 		}
@@ -64,6 +72,12 @@ public class InfActor : MonoBehaviour {
 			}
 		}
 		TransferToZone(closest);
+	}
+
+	public void OccasionallyCheckForClosestZone(InfZone[] zones, int everyNthFrame) {
+		if((randomFrameCountOffset + Time.frameCount) % everyNthFrame == 0) {
+			TransferToClosestZone(zones);
+		}
 	}
 
 	public void FixAfterUnfreeze (InfZone zone) {

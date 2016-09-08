@@ -4,11 +4,13 @@ using System.Collections;
 public class WorldSimulation : MonoBehaviour {
 
 	ExampleEntity[] entities;
+	InfZone[] zones;
+	InfActor[] actors;
 
 	void Start () {
 		entities = GameObject.FindObjectsOfType<ExampleEntity> ();
-		var zones = GameObject.FindObjectsOfType<InfZone> ();
-		var actors = GameObject.FindObjectsOfType<InfActor> ();
+		zones = GameObject.FindObjectsOfType<InfZone> ();
+		actors = GameObject.FindObjectsOfType<InfActor> ();
 		foreach (var a in actors) {
 			a.TransferToClosestZone (zones);
 		}
@@ -17,6 +19,9 @@ public class WorldSimulation : MonoBehaviour {
 	void Update () {
 		foreach (var e in entities) {
 			e.UpdateWhenFrozen ();
+		}
+		foreach (var a in actors) {
+			a.OccasionallyCheckForClosestZone(zones, 30);
 		}
 	}
 }
