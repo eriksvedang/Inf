@@ -19,7 +19,7 @@ public class ExampleEntity : MonoBehaviour, Freezable {
 		}
 	}
 
-	public void UpdateWhileFrozen() {
+	public void UpdateWhileFrozen(InfZone zone) {
 		distanceTravelledWhileFrozen += Time.deltaTime * 2f;
 	}
 

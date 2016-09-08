@@ -4,15 +4,16 @@ using System.Collections;
 public interface Freezable {
 	void Freeze(InfZone zone);
 	void Unfreeze(InfZone zone);
-	void UpdateWhileFrozen();
+	void UpdateWhileFrozen(InfZone zone);
 }
 
 public class InfActor : MonoBehaviour {
 
 	public InfZone zone;
-	public System.Action<InfZone> onFreeze;
-	public System.Action<InfZone> onUnfreeze;
-	System.Action onUpdateWhileFrozen;
+
+	System.Action<InfZone> onFreeze;
+	System.Action<InfZone> onUnfreeze;
+	System.Action<InfZone> onUpdateWhileFrozen;
 	int randomFrameCountOffset;
 
 	void Awake() {
@@ -30,7 +31,7 @@ public class InfActor : MonoBehaviour {
 	}
 
 	public void UpdateWhileFrozen () {
-		onUpdateWhileFrozen();
+		onUpdateWhileFrozen(zone);
 	}
 
 	/// <summary>
