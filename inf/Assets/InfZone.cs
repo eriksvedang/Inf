@@ -60,6 +60,23 @@ public class InfZone : MonoBehaviour {
 		}
 	}
 
+	public static InfZone ClosestZone (Vector3 position, InfZone[] zones)
+	{
+		if (zones.Length == 0) {
+			throw new UnityException ("No zones to choose from");
+		}
+		float minimum = float.MaxValue;
+		InfZone closest = null;
+		foreach (var zone in zones) {
+			float distance = Vector3.Distance (position, zone.transform.position);
+			if (distance < minimum) {
+				minimum = distance;
+				closest = zone;
+			}
+		}
+		return closest;
+	}
+
 	void OnDrawGizmos() {
 		Gizmos.color = frozen ? Color.blue : Color.yellow;
 		Gizmos.DrawSphere(transform.position, 1);

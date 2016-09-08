@@ -76,19 +76,7 @@ public class InfActor : MonoBehaviour {
 	}
 
 	public void TransferToClosestZone(InfZone[] zones) {
-		if (zones.Length == 0) {
-			throw new UnityException ("No zones to choose from");
-		}
-		float minimum = float.MaxValue;
-		InfZone closest = null;
-		foreach (var z in zones) {
-			float distance = Vector3.Distance (transform.position, z.transform.position);
-			if (distance < minimum) {
-				minimum = distance;
-				closest = z;
-			}
-		}
-		TransferToZone(closest);
+		TransferToZone(InfZone.ClosestZone(transform.position, zones));
 	}
 
 	public void OccasionallyCheckForClosestZone(InfZone[] zones, int everyNthFrame) {
